@@ -1,3 +1,6 @@
+require 'active_support/core_ext/string/inflections'
+require 'siebel_donations/base'
+
 Dir[File.dirname(__FILE__) + '/siebel_donations/*.rb'].each do |file|
   require file
 end

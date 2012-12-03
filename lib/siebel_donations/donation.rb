@@ -1,9 +1,10 @@
 module SiebelDonations
   class Donation < Base
-    PATH = '/donations'
 
-    def self.find(params = {})
-      new.get(PATH, params)
-    end
+    def self.path() '/donations'; end
+
+    attr_reader :id, :amount, :designation, :donor_id, :designation_date, :payment_method,
+                :payment_type, :channel, :campaign_code
+
   end
 end
