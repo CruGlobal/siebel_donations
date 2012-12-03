@@ -11,7 +11,7 @@ module SiebelDonations
       if @account_type == 'Chartfield'
         raise 'Balance information is not currently available for chartfields'
       else
-        Balance.find(employee_ids: @number, staff_account_types: account_types).first
+        Balance.find(employee_ids: @staff_account_id, staff_account_types: account_types || 'primary').first
       end
     end
 

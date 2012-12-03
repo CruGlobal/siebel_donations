@@ -7,8 +7,8 @@ module SiebelDonations
     def initialize(json)
       super
 
-      @phone_numbers = json['phone_numbers'].collect { |phone_json| PhoneNumber.new(phone_json) } if json['phone_numbers']
-      @email_addresses = json['email_addresses'].collect { |email_json| EmailAddress.new(email_json) } if json['email_addresses']
+      @phone_numbers = json['phoneNumbers'].collect { |phone_json| SiebelDonations::PhoneNumber.new(phone_json) } if json['phoneNumbers']
+      @email_addresses = json['emailAddresses'].collect { |email_json| SiebelDonations::EmailAddress.new(email_json) } if json['emailAddresses']
     end
 
   end

@@ -1,5 +1,5 @@
 module SiebelDonations
-  class EmailAddress < Base
+  class PhoneNumber < Base
 
     attr_reader :type, :primary, :phone
 
