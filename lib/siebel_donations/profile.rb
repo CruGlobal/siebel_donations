@@ -5,10 +5,10 @@ module SiebelDonations
 
     attr_reader :id, :name, :designations
 
-    def initialize(json)
+    def initialize(json = {})
       super
 
-      @designations = json['designations'].collect { |designation_json| Designation.new(designation_json) }
+      @designations = json['designations'] ? json['designations'].collect { |designation_json| Designation.new(designation_json) } : []
     end
 
   end
