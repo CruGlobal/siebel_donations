@@ -12,8 +12,11 @@ module SiebelDonations
 
     def self.get(path, params)
       raise 'You need to configure SiebelDonations with your oauth_token.' unless SiebelDonations.oauth_token
+
+      params[:response_timeout] ||= SiebelDonations.default_timeout
+
       url = SiebelDonations.base_url + path
-      RestClient.get(url, {params: params, timeout: -1, authorization: "Bearer #{SiebelDonations.oauth_token}"}) { |response, request, result, &block|
+      RestClient::Request.execute(:method => :get, :url => url, :headers => {params: params, authorization: "Bearer #{SiebelDonations.oauth_token}"}, :timeout => -1) { |response, request, result, &block|
         case response.code
         when 200
           Oj.load(response)

@@ -7,7 +7,7 @@ end
 
 module SiebelDonations
   class << self
-    attr_accessor :base_url, :oauth_token
+    attr_accessor :base_url, :oauth_token, :default_timeout
 
     def configure
       yield self
@@ -15,6 +15,10 @@ module SiebelDonations
 
     def base_url
       @base_url ||= "http://hart-a321.net.ccci.org:9980/wsapi/rest"
+    end
+
+    def default_timeout
+      @default_timeout || 6000
     end
   end
 end
