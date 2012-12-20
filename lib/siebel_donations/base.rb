@@ -20,6 +20,8 @@ module SiebelDonations
         case response.code
         when 200
           Oj.load(response)
+        when 400
+          raise RestClient::ExceptionWithResponse, response.to_s
         else
           puts response.inspect
           puts request.inspect
