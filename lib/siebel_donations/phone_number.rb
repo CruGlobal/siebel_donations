@@ -1,7 +1,7 @@
 module SiebelDonations
   class PhoneNumber < Base
 
-    attr_reader :type, :primary, :phone
+    attr_reader :id, :type, :primary, :phone
 
   end
 end
