@@ -20,5 +20,6 @@ Gem::Specification.new do |gem|
   gem.add_dependency('rest-client', '~> 1.6.7')
   gem.add_dependency('oj', '~> 1.4.5')
   gem.add_dependency('activesupport')
+  gem.add_dependency('retryable-rb')
 
 end

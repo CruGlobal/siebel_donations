@@ -1,5 +1,6 @@
 require 'rest-client'
 require 'oj'
+require 'retryable'
 
 module SiebelDonations
   class Base
@@ -16,18 +17,20 @@ module SiebelDonations
       params[:response_timeout] ||= SiebelDonations.default_timeout
 
       url = SiebelDonations.base_url + path
-      RestClient::Request.execute(:method => :get, :url => url, :headers => {params: params, authorization: "Bearer #{SiebelDonations.oauth_token}"}, :timeout => -1) { |response, request, result, &block|
-        case response.code
-        when 200
-          Oj.load(response)
-        when 400
-          raise RestClient::ExceptionWithResponse, response.to_s
-        else
-          puts response.inspect
-          puts request.inspect
-          raise result.inspect
-        end
-      }
+      Retryable.retryable :on => [Net::HTTPInternalServerError, Timeout::Error, Errno::ECONNRESET], :times => 20, :sleep => 20 do
+        RestClient::Request.execute(:method => :get, :url => url, :headers => {params: params, authorization: "Bearer #{SiebelDonations.oauth_token}"}, :timeout => -1) { |response, request, result, &block|
+          case response.code
+          when 200
+            Oj.load(response)
+          when 400
+            raise RestClient::ExceptionWithResponse, response.to_s
+          else
+            puts response.inspect
+            puts request.inspect
+            raise result.inspect
+          end
+        }
+      end
     end
 
     def self.find(params)
