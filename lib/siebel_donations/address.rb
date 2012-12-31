@@ -7,7 +7,7 @@ module SiebelDonations
 
     def type
       case @type
-      when 'Mailing Address'
+      when 'Mailing Address', 'Ship To', 'Ma', 'Mailng', 'M', 'Billing', 'Mailin', 'Mailig'
         'Mailing'
       else
         @type
