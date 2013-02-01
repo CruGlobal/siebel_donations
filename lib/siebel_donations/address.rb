@@ -6,8 +6,8 @@ module SiebelDonations
 
 
     def type
-      case @type.downcase
-      when 'mailing address', 'ship to', 'ma', 'mailng', 'm', 'billing', 'mailin', 'mailig', 'mailing', 'maling', 'mailign'
+      case @type.to_s.downcase
+      when 'mailing address', 'ship to', 'ma', 'mailng', 'm', 'billing', 'mailin', 'mailig', 'mailing', 'maling', 'mailign', ''
         'Mailing'
       else
         @type
