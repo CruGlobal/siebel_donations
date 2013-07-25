@@ -3,7 +3,7 @@ module SiebelDonations
 
     def self.path() '/donors'; end
 
-    attr_reader :id, :account_name, :contacts, :addresses, :type
+    attr_reader :id, :account_name, :contacts, :addresses, :type, :updated_at
 
     def initialize(json = {})
       super

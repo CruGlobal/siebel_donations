@@ -2,7 +2,7 @@ module SiebelDonations
   class Contact < Base
 
     attr_reader :id, :primary, :first_name, :preferred_name, :middle_name, :last_name,
-                :title, :suffix, :sex, :phone_numbers, :email_addresses
+                :title, :suffix, :sex, :phone_numbers, :email_addresses, :updated_at
 
     def initialize(json = {})
       super
