@@ -23,9 +23,9 @@ module SiebelDonations
           when 200
             Oj.load(response.unpack("C*").pack("U*").force_encoding("UTF-8").encode!)
           when 400
-            raise RestClient::BadRequest, response.to_s
+            raise RestClient::BadRequest, response
           when 500
-            raise RestClient::InternalServerError, response.to_s
+            raise RestClient::InternalServerError, response
           else
             puts response.inspect
             puts request.inspect
