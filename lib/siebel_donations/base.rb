@@ -17,8 +17,10 @@ module SiebelDonations
       params[:response_timeout] ||= SiebelDonations.default_timeout
 
       url = SiebelDonations.base_url + path
+      headers = { params: params, authorization: "Bearer #{SiebelDonations.oauth_token}" }
+
       Retryable.retryable :on => [RestClient::InternalServerError, Timeout::Error, Errno::ECONNRESET], :times => 20, :sleep => 20 do
-        RestClient::Request.execute(:method => :get, :url => url, :headers => {params: params, authorization: "Bearer #{SiebelDonations.oauth_token}"}, :timeout => nil) { |response, request, result, &block|
+        RestClient::Request.execute(method: :get, url: url, headers: headers, timeout: SiebelDonations.default_timeout) { |response, request, result, &block|
           case response.code
           when 200
             Oj.load(response.unpack("C*").pack("U*").force_encoding("UTF-8").encode!)
