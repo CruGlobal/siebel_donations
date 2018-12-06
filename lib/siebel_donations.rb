@@ -7,7 +7,7 @@ end
 
 module SiebelDonations
   class << self
-    attr_accessor :base_url, :oauth_token, :default_timeout
+    attr_accessor :base_url, :oauth_token, :default_timeout, :default_retry_count
 
     def configure
       yield self
@@ -19,6 +19,10 @@ module SiebelDonations
 
     def default_timeout
       @default_timeout || 6000
+    end
+
+    def default_retry_count
+      @default_retry_count || 20
     end
   end
 end

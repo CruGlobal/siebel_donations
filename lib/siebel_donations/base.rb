@@ -15,12 +15,16 @@ module SiebelDonations
       raise 'You need to configure SiebelDonations with your oauth_token.' unless SiebelDonations.oauth_token
 
       params[:response_timeout] ||= SiebelDonations.default_timeout
+      retry_count = params.delete(:retry_count) || SiebelDonations.default_retry_count
 
       url = SiebelDonations.base_url + path
       headers = { params: params, authorization: "Bearer #{SiebelDonations.oauth_token}" }
 
-      Retryable.retryable :on => [RestClient::InternalServerError, Timeout::Error, Errno::ECONNRESET], :times => 20, :sleep => 20 do
-        RestClient::Request.execute(method: :get, url: url, headers: headers, timeout: SiebelDonations.default_timeout) { |response, request, result, &block|
+      retryable_errors = [RestClient::InternalServerError, Timeout::Error, Errno::ECONNRESET]
+
+      Retryable.retryable on: retryable_errors, times: retry_count, sleep: 20 do
+        request_params = { method: :get, url: url, headers: headers, timeout: SiebelDonations.default_timeout }
+        RestClient::Request.execute(request_params) do |response, request, result, &block|
           case response.code
           when 200
             Oj.load(response.unpack("C*").pack("U*").force_encoding("UTF-8").encode!)
@@ -33,7 +37,7 @@ module SiebelDonations
             puts request.inspect
             raise result.inspect
           end
-        }
+        end
       end
     end
 
