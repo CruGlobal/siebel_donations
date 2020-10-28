@@ -14,7 +14,8 @@ module SiebelDonations
     def self.get(path, params)
       raise 'You need to configure SiebelDonations with your oauth_token.' unless SiebelDonations.oauth_token
 
-      params[:response_timeout] ||= SiebelDonations.default_timeout
+      request_timeout = params[:timeout] || SiebelDonations.default_timeout
+      params[:response_timeout] ||= request_timeout
       retry_count = params.delete(:retry_count) || SiebelDonations.default_retry_count
 
       url = SiebelDonations.base_url + path
@@ -23,7 +24,7 @@ module SiebelDonations
       retryable_errors = [RestClient::InternalServerError, Timeout::Error, Errno::ECONNRESET]
 
       Retryable.retryable on: retryable_errors, times: retry_count, sleep: 20 do
-        request_params = { method: :get, url: url, headers: headers, timeout: SiebelDonations.default_timeout }
+        request_params = { method: :get, url: url, headers: headers, timeout: request_timeout }
         RestClient::Request.execute(request_params) do |response, request, result, &block|
           case response.code
           when 200
