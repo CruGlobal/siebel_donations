@@ -22,7 +22,7 @@ module SiebelDonations
     end
 
     def default_retry_count
-      @default_retry_count || 20
+      @default_retry_count || 2
     end
   end
 end
