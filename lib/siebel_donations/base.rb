@@ -28,7 +28,7 @@ module SiebelDonations
         RestClient::Request.execute(request_params) do |response, request, result, &block|
           case response.code
           when 200
-            Oj.load(response.unpack("C*").pack("U*").force_encoding("UTF-8").encode!)
+            Oj.load(response)
           when 400
             raise RestClient::BadRequest, response
           when 500
