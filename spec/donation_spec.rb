@@ -4,7 +4,7 @@ describe SiebelDonations::Donation do
   context '.find' do
     context 'by a designation number' do
       it "returns an array of donations" do
-        donation_json = Oj.load '[ { "id": "XGF5T", "amount": "10.00", "designation": "0588176", "donorId": "000599596", "donationDate": "2007-10-21", "paymentMethod": "Credit Card", "paymentType": "Visa", "channel": "Recurring", "campaignCode": "CCWBST" } ]'
+        donation_json = Oj.load '[ { "id": "XGF5T", "amount": "10.00", "designation": "0588176", "donorId": "000599596", "donationDate": "2007-10-21", "paymentMethod": "Credit Card", "paymentType": "Visa", "channel": "Recurring", "campaignCode": "CCWBST", "historicId": "1-ABCDE" } ]'
         SiebelDonations::Donation.should_receive(:get).and_return(donation_json)
 
         donations = SiebelDonations::Donation.find(designations: '0559826',
